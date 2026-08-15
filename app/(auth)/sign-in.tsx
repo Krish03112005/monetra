@@ -234,7 +234,10 @@ export default function SignIn() {
                 render={({ field: { value, onChange } }) => (
                   <TextInput
                     value={value}
-                    onChangeText={onChange}
+                    onChangeText={(text) => {
+                      setPasswordError(false);
+                      onChange(text);
+                    }}
                     placeholder="Enter verification code"
                     placeholderTextColor="#8A8D96"
                     keyboardType="number-pad"

@@ -457,7 +457,7 @@ export default function SignUpScreen() {
 
             <View className="flex-row items-center gap-3 mb-2">
               <View className="flex-1 h-[1px] bg-[#DADADA]" />
-              <Text className="text-[#9A9A9A] text-sm">Or Sign-Up with</Text>
+              <Text className="text-[#9A9A9A] text-sm">Or Sign up with</Text>
               <View className="flex-1 h-[1px] bg-[#DADADA]" />
             </View>
 
