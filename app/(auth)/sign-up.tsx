@@ -1,9 +1,10 @@
 import { codeSchema, SignUpFormValues, signUpSchema } from "@/lib/schemas/auth";
+import CustomButton from "@/components/custom_button";
 import { useAuth, useSignUp } from "@clerk/expo";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -244,20 +245,14 @@ export default function SignUpScreen() {
                 </Text>
               )}
 
-              <TouchableOpacity
+              <CustomButton
                 onPress={handleCodeSubmit(onVerifyPress)}
-                disabled={isLoading}
-                className="w-full bg-[#BDFE9B] py-4 rounded-full items-center mt-4 mb-3"
+                isLoading={isLoading}
+                title="Verify"
+                className="w-full bg-[#BDFE9B] py-4 rounded-full items-center justify-center mt-4 mb-3"
                 style={{ boxShadow: "0 4px 10px rgba(0,74,16,0.25)" }}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color="#004A10" />
-                ) : (
-                  <Text className="text-[#004A10] font-semibold text-lg">
-                    Verify
-                  </Text>
-                )}
-              </TouchableOpacity>
+                textClassName="text-[#004A10] font-semibold text-lg"
+              />
 
               <TouchableOpacity
                 onPress={() => signUp.verifications.sendEmailCode()}
@@ -428,18 +423,13 @@ export default function SignUpScreen() {
               </Text>
             )}
 
-            <TouchableOpacity
+            <CustomButton
               onPress={handleSubmit(onSignUpPress)}
-              disabled={isLoading}
-              className="w-full bg-[#B1FF90] py-4 rounded-full items-center mt-4 mb-4"
+              isLoading={isLoading}
+              title="Sign Up"
+              className="w-full bg-[#B1FF90] py-4 rounded-full items-center justify-center mt-4 mb-4"
               style={{ boxShadow: "0 3px 16px rgba(0, 74, 16, 0.2)" }}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#004A10" />
-              ) : (
-                <Text className="text-[#] font-bold text-xl">Sign Up</Text>
-              )}
-            </TouchableOpacity>
+            />
 
             <View className="flex-row justify-center mb-6">
               <Text className="text-brand-text-muted">
@@ -461,23 +451,24 @@ export default function SignUpScreen() {
               <View className="flex-1 h-[1px] bg-[#DADADA]" />
             </View>
 
-            <TouchableOpacity
+            <CustomButton
               onPress={onGoogleSignUp}
-              disabled={isLoading}
-              className="w-full bg-[#1F2326] py-4 rounded-full items-center mt-2 flex-row justify-center"
+              isLoading={isLoading}
+              title="Continue with Google"
+              className="w-full bg-[#1F2326] py-4 rounded-full items-center justify-center mt-2 flex-row"
+              textClassName="ml-4 text-white font-semibold text-base"
+              loadingColor="#FFFFFF"
+              icon={
+                <Image
+                  source={require("../../assets/images/google-icon.png")}
+                  className="w-6 h-6"
+                  resizeMode="contain"
+                />
+              }
               style={{
                 boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
               }}
-            >
-              <Image
-                source={require("../../assets/images/google-icon.png")}
-                className="w-6 h-6"
-                resizeMode="contain"
-              />
-              <Text className="ml-4 text-white font-semibold text-base">
-                Continue with Google
-              </Text>            
-              </TouchableOpacity>
+            />
 
             {/* <View className="flex-row justify-center mt-2 mb-4">
               <Text className="text-brand-text-muted">

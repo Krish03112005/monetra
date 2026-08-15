@@ -18,6 +18,7 @@ import { useRouter } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 
 import { codeSchema, SignInFormValues, signInSchema } from "@/lib/schemas/auth";
+import CustomButton from "@/components/custom_button";
 import { FontAwesome6 } from "@expo/vector-icons";
 
 export default function SignIn() {
@@ -259,19 +260,12 @@ export default function SignIn() {
                 </Text>
               )}
 
-              <TouchableOpacity
+              <CustomButton
                 onPress={handleCodeSubmit(onVerifyPress)}
-                disabled={isLoading}
-                className="w-full bg-[#B1FF90] py-4 rounded-full items-center mt-4 mb-4"
-              >
-                {isLoading ? (
-                  <ActivityIndicator color="#004A10" />
-                ) : (
-                  <Text className="text-[#004A10] font-bold text-xl">
-                    Verify
-                  </Text>
-                )}
-              </TouchableOpacity>
+                isLoading={isLoading}
+                title="Verify"
+                className="w-full bg-[#B1FF90] py-4 rounded-full items-center justify-center mt-4 mb-4"
+              />
 
               <TouchableOpacity
                 onPress={() => signIn.mfa.sendEmailCode()}
@@ -406,46 +400,39 @@ export default function SignIn() {
             )}
 
             {/* Sign In Button */}
-            <TouchableOpacity
+            <CustomButton
               onPress={handleSubmit(onSignInPress)}
-              disabled={isLoading}
-              className="w-full bg-[#B1FF90] py-4 rounded-full items-center mt-4 mb-6"
+              isLoading={isLoading}
+              title="Sign In"
+              className="w-full bg-[#B1FF90] py-4 rounded-full items-center justify-center mt-4 mb-6"
               style={{
                 boxShadow: "0 3px 16px rgba(0,74,16,0.2)",
               }}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#004A10" />
-              ) : (
-                <Text className="text-[#004A10] font-bold text-xl">
-                  Sign In
-                </Text>
-              )}
-            </TouchableOpacity>
+            />
 
-            <TouchableOpacity
+            <CustomButton
               onPress={onGoogleSignIn}
-              disabled={isLoading}
-              className="w-full bg-[#1F2326] py-4 rounded-full items-center mt-2 mb-4 flex-row justify-center"
+              isLoading={isLoading}
+              title="Continue with Google"
+              className="w-full bg-[#1F2326] py-4 rounded-full items-center justify-center mt-2 mb-4 flex-row"
+              textClassName="ml-4 text-white font-semibold text-base"
+              loadingColor="#FFFFFF"
+              icon={
+                <Image
+                  source={require("../../assets/images/google-icon.png")}
+                  className="w-6 h-6"
+                  resizeMode="contain"
+                />
+              }
               style={{
                 boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
               }}
-            >
-              <Image
-                source={require("../../assets/images/google-icon.png")}
-                className="w-6 h-6"
-                resizeMode="contain"
-              />
-
-              <Text className="ml-4 text-white font-semibold text-base">
-                Continue with Google
-              </Text>
-            </TouchableOpacity>
+            />
 
             {/* Sign Up */}
             <View className="flex-row justify-center mt-2 mb-4">
               <Text className="text-brand-text-muted">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
               </Text>
 
               <TouchableOpacity
