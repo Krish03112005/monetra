@@ -25,8 +25,14 @@ export default function SignIn() {
   const router = useRouter();
 
   const isLoading = fetchStatus === "fetching";
+
   const [switching, setSwitching] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [passwordError, setPasswordError] = useState(false);
+
+  
 
   // Sign-in form
   const {
@@ -84,44 +90,43 @@ export default function SignIn() {
   // SIGN IN
   // -----------------------------
   const onSignInPress = async (values: SignInFormValues) => {
-    const { error } = await signIn.password({
-      emailAddress: values.email,
-      password: values.password,
-    });
+  setPasswordError(false);
 
-    if (error) {
-      console.error("SIGN IN ERROR:", JSON.stringify(error, null, 2));
+  const { error } = await signIn.password({
+    emailAddress: values.email,
+    password: values.password,
+  });
+
+  if (error) {
+    setPasswordError(true);
+    return;
+  }
+
+  console.log("Sign-in status:", signIn.status);
+
+  if (signIn.status === "complete") {
+    await finalizeSignIn();
+    return;
+  }
+
+  if (signIn.status === "needs_second_factor") {
+    await signIn.mfa.sendPhoneCode();
+    return;
+  }
+
+  if (signIn.status === "needs_client_trust") {
+    const emailCodeFactor = signIn.supportedSecondFactors.find(
+      (factor) => factor.strategy === "email_code"
+    );
+
+    if (emailCodeFactor) {
+      await signIn.mfa.sendEmailCode();
       return;
     }
 
-    console.log("Sign-in status:", signIn.status);
-
-    // No MFA required
-    if (signIn.status === "complete") {
-      await finalizeSignIn();
-      return;
-    }
-
-    // Second factor required
-    if (signIn.status === "needs_second_factor") {
-      await signIn.mfa.sendPhoneCode();
-      return;
-    }
-
-    // Client trust required
-    if (signIn.status === "needs_client_trust") {
-      const emailCodeFactor = signIn.supportedSecondFactors.find(
-        (factor) => factor.strategy === "email_code",
-      );
-
-      if (emailCodeFactor) {
-        await signIn.mfa.sendEmailCode();
-        return;
-      }
-
-      console.error("No email verification factor available.");
-    }
-  };
+    console.error("No email verification factor available.");
+  }
+};
 
   // -----------------------------
   // VERIFY OTP
@@ -365,7 +370,10 @@ export default function SignIn() {
                     placeholder="••••••••••••"
                     placeholderTextColor="#8A8D96"
                     value={value}
-                    onChangeText={onChange}
+                    onChangeText={(text) => {
+                      setPasswordError(false);
+                      onChange(text);
+                    }}
                     secureTextEntry={!showPassword}
                   />
                 )}
@@ -388,9 +396,9 @@ export default function SignIn() {
               </Text>
             )}
 
-            {errors.fields.password && (
+            {passwordError && !formErrors.password && (
               <Text className="text-brand-coral mb-3 text-sm">
-                {errors.fields.password.message}
+                Incorrect email or password. Please try again.
               </Text>
             )}
 

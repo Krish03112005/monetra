@@ -431,7 +431,7 @@ export default function SignUpScreen() {
             <TouchableOpacity
               onPress={handleSubmit(onSignUpPress)}
               disabled={isLoading}
-              className="w-full bg-[#B1FF90] py-4 rounded-full items-center mt-4 mb-6"
+              className="w-full bg-[#B1FF90] py-4 rounded-full items-center mt-4 mb-4"
               style={{ boxShadow: "0 3px 16px rgba(0, 74, 16, 0.2)" }}
             >
               {isLoading ? (
@@ -441,10 +441,30 @@ export default function SignUpScreen() {
               )}
             </TouchableOpacity>
 
+            <View className="flex-row justify-center mb-6">
+              <Text className="text-brand-text-muted">
+                Already have an account?{" "}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setSwitching(true);
+                  router.push("/sign-in");
+                }}
+              >
+                <Text className="text-brand-blue font-semibold">Sign In</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View className="flex-row items-center gap-3 mb-2">
+              <View className="flex-1 h-[1px] bg-[#DADADA]" />
+              <Text className="text-[#9A9A9A] text-sm">Or Sign-Up with</Text>
+              <View className="flex-1 h-[1px] bg-[#DADADA]" />
+            </View>
+
             <TouchableOpacity
               onPress={onGoogleSignUp}
               disabled={isLoading}
-              className="w-full bg-[#1F2326] py-4 rounded-full items-center mt-2 mb-4 flex-row justify-center"
+              className="w-full bg-[#1F2326] py-4 rounded-full items-center mt-2 flex-row justify-center"
               style={{
                 boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
               }}
@@ -459,13 +479,7 @@ export default function SignUpScreen() {
               </Text>            
               </TouchableOpacity>
 
-            {/* <View className="flex-row items-center gap-3 mb-2">
-              <View className="flex-1 h-[1px] bg-[#DADADA]" />
-              <Text className="text-[#9A9A9A] text-sm">Or Sign-Up with</Text>
-              <View className="flex-1 h-[1px] bg-[#DADADA]" />
-            </View> */}
-
-            <View className="flex-row justify-center mt-2 mb-4">
+            {/* <View className="flex-row justify-center mt-2 mb-4">
               <Text className="text-brand-text-muted">
                 Already have an account?{" "}
               </Text>
@@ -477,7 +491,7 @@ export default function SignUpScreen() {
               >
                 <Text className="text-brand-blue font-semibold">Sign In</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             <View nativeID="clerk-captcha" />
             {switching && (
